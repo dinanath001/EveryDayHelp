@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Admin Responses</title>
+    <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/adminHeader::headerFragment}"></div>
+
+<div class="main-body container mt-5">
+    <h2 class="text-center mb-4">Pending Bookings (No Admin Response)</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Service Type</th>
+                    <th>Employee Type</th>
+                    <th>Email</th>
+                    <th>User Message</th>
+                    <th>Admin Action</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="booking : ${bookingKey}">
+               <!-- OPTIONAL ==>> th:if="${booking.adminMessage} == null -->
+                    <td th:text="${booking.id}">1</td>
+                    <td th:text="${booking.serviceType}">Service</td>
+                    <td th:text="${booking.employeeType}">Employee</td>
+                    <td th:text="${booking.email}">email@example.com</td>
+                    <td th:text="${booking.userMessage}">Need help</td>
+
+                    <!-- Respond Button -->
+                    <td>
+                        <a th:href="@{/admin/respondBooking(bookingId=${booking.id})}"
+                           class="btn btn-sm btn-primary">
+                            Respond
+                        </a>
+                    </td>
+
+                    <td>
+                        <span th:text="${booking.status ? 'Completed' : 'Pending'}"
+                              th:classappend="${booking.status ? 'text-success' : 'text-danger'}"></span>
+                    </td>
+
+                    <td th:text="${#temporals.format(booking.createdAt, 'dd-MM-yyyy HH:mm')}">DateTime</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Message if No Pending Bookings -->
+   <div th:if="${#lists.isEmpty(bookingKey)}" class="alert alert-info text-center mt-4">
+        No pending admin responses.
+    </div> 
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::footerFragment}"></div>
+
+</body>
+</html>

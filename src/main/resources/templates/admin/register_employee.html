@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${title}">Employee Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .register-container {
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 60px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    h6 {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      color: #777;
+    }
+
+    label {
+      font-size: 0.9rem;
+    }
+
+    .form-control {
+      font-size: 0.9rem;
+      padding: 6px 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    textarea {
+      resize: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Admin Header -->
+  <div th:replace="~{fragments/adminHeader::headerFragment}"></div>
+
+<p id="mssg1" th:text="${mssg}" style="display:none"></p>
+<!--Sweet Alert  -->
+<div th:if="${mssg}">
+<script th:inline="javascript">
+let message = document.getElementById('mssg1').textContent;
+Swal.fire({
+  title: "Notice Message",
+  text: message,
+  icon: "success"
+});
+</script>
+</div>
+
+  <!-- Success Message -->
+  <div class="container mt-2" th:if="${mssg}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <h6 class="text-success mb-0" th:text="${mssg}"></h6>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <!-- Main Form -->
+  <div class="container main-body mb-3">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-9">
+        <div class="register-container">
+          <h2>Employee Registration</h2>
+          <h6>Fill in the details below</h6>
+
+          <form method="post" action="/admin/registerEmployee" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label>Employee ID</label>
+                <input type="text" name="empId" class="form-control" placeholder="Enter ID" required>
+              </div>
+              <div class="col-md-6 mb-2">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Enter Name" required>
+              </div>
+                            
+               <div class="col-md-6 mb-2">
+                <label>Gender</label><br>
+                <input type="radio" name="gender" value="Male" required> Male
+                <input type="radio" name="gender" value="Female" required class="ms-3"> Female
+              </div>
+              
+               <div class="col-md-6 mb-2">
+                <label>Phone</label>
+                <input type="tel" name="phone" class="form-control" placeholder="Enter Phone" pattern="[0-9]{10}" required>
+              </div>
+              
+              <div class="col-md-6 mb-2">
+                <label>Qualification</label>
+                <input type="text" name="qualification" class="form-control" placeholder="Enter Qualification">
+              </div>
+              
+               <div class="col-md-6 mb-2">
+				  <label>Profession Type</label>
+				  <select name="employee_type" class="form-control" required>
+				    <option value="" disabled selected>Select Profession</option>
+				    <option value="Electrician">Electrician</option>
+				    <option value="Plumber">Plumber</option>
+				    <option value="Carpenter">Carpenter</option>
+				    <option value="Painter">Painter</option>
+				    <option value="Gardener">Gardener</option>
+				    <option value="AC Technician">AC Technician</option>
+				    <option value="Mechanic">Mechanic</option>
+				    <option value="House Cleaner">House Cleaner</option>
+				    <option value="Driver">Driver</option>
+				    <option value="Cook">Cook</option>
+				    <option value="Baby Sitter">Baby Sitter</option>
+				    <option value="Security Guard">Security Guard</option>
+				    <option value="Washerman">Washerman</option>
+				    <option value="Mason">Mason</option>
+				    <option value="Welder">Welder</option>				    
+				  </select>
+             </div>
+
+
+              <div class="col-md-6 mb-2">
+                <label>Experience</label>
+                <input type="text" name="experience" class="form-control" placeholder="Enter Experience">
+              </div>   
+
+              <div class="col-md-6 mb-2">
+                <label>Service Type</label><br>
+                <input type="radio" name="service_type" value="LTS" required> LTS
+                <input type="radio" name="service_type" value="STS" required class="ms-3"> STS
+              </div>
+
+              <div class="col-md-6 mb-2">
+                <label>Charges</label>
+                <input type="text" name="charges" class="form-control" placeholder="Enter Charges">
+              </div>
+
+              <div class="col-md-6 mb-2">
+                <label>Profile Picture</label>
+                <input type="file" name="profilePic" class="form-control" required>
+              </div>
+
+              <div class="col-12 mb-2">
+                <label>Description</label>
+                <textarea name="description" class="form-control" rows="2" placeholder="Enter Description"></textarea>
+              </div>
+            </div>
+
+            <div class="btn-group mt-2">
+              <button type="reset" class="btn btn-warning btn-sm">Reset</button>
+              <button type="submit" class="btn btn-success btn-sm">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div th:replace="~{fragments/footer::footerFragment}"></div>
+</body>
+</html>

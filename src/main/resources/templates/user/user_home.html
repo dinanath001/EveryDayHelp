@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">User Dashboard</title>
+    
+    <!-- Common CSS -->
+    <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+
+    <!-- Tailwind & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-size: cover;
+            padding-top: 60px;
+        }
+
+        .profile-shadow {
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+
+<!-- Header -->
+<div th:replace="~{fragments/userHeader::headerFragment}"></div>
+
+<!-- Optional Success Message -->
+<div th:if="${mssg}" class="container mx-auto mt-4">
+    <div class="bg-green-100 text-green-800 p-4 rounded shadow-md fade-in">
+        <strong th:text="${mssg}"></strong>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-body">
+    <div class="max-w-4xl mx-auto mt-12 mb-4 px-4 fade-in">
+        <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-900">
+
+            <!-- Profile Picture (click-only on image) -->
+            <div class="bg-gray-100 p-4 rounded-xl profile-shadow text-center">
+                <a th:href="@{'/' + ${userInfo.pic}}" target="_blank">
+                    <img th:src="@{'/' + ${userInfo.pic}}" alt="Profile Picture"
+                         class="rounded-xl w-full shadow-lg hover:scale-105 transition duration-300 ease-in-out cursor-pointer">
+                </a>
+            </div>
+
+            <!-- User Details -->
+            <div class="space-y-4">
+                <h2 class="text-2xl font-bold text-green-700">
+                    <i class="fas fa-user-circle mr-2"></i> 
+                    <span th:text="${userInfo.name}"></span>
+                </h2>
+                <p><i class="fas fa-envelope text-green-500 mr-2"></i><strong>Email:</strong> <span th:text="${userInfo.email}"></span></p>
+                <p><i class="fas fa-phone text-green-500 mr-2"></i><strong>Phone:</strong> <span th:text="${userInfo.phone}"></span></p>
+                <p><i class="fas fa-map-marker-alt text-green-500 mr-2"></i><strong>Address:</strong> <span th:text="${userInfo.address}"></span></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::footerFragment}"></div>
+
+</body>
+</html>

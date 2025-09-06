@@ -1,0 +1,101 @@
+<th:block th:fragment="reptile-cursor">
+  <canvas id="canvas" style="position:fixed; top:0; left:0; z-index:2; pointer-events:none;"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Smooth mouse tracker
+    let target = { x: canvas.width / 2, y: canvas.height / 2 };
+    let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+
+    document.addEventListener("mousemove", (e) => {
+      target.x = e.clientX;
+      target.y = e.clientY;
+    });
+
+    class Segment {
+      constructor(x, y, length, angle = 0) {
+        this.x = x;
+        this.y = y;
+        this.length = length;
+        this.angle = angle;
+        this.endX = x + Math.cos(angle) * length;
+        this.endY = y + Math.sin(angle) * length;
+      }
+
+      follow(targetX, targetY) {
+        let dx = targetX - this.x;
+        let dy = targetY - this.y;
+        this.angle = Math.atan2(dy, dx);
+        let tx = targetX - Math.cos(this.angle) * this.length;
+        let ty = targetY - Math.sin(this.angle) * this.length;
+        this.x = tx;
+        this.y = ty;
+        this.endX = this.x + Math.cos(this.angle) * this.length;
+        this.endY = this.y + Math.sin(this.angle) * this.length;
+      }
+
+      draw(ctx, index) {
+        const hue = (index * 10 + Date.now() / 10) % 360;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.endX, this.endY);
+        ctx.strokeStyle = `hsla(${hue}, 100%, 60%, 0.5)`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+
+    const segments = [];
+    const total = 25;
+    const segLength = 12;
+    for (let i = 0; i < total; i++) {
+      segments.push(new Segment(mouse.x, mouse.y, segLength));
+    }
+
+    function updateMouse() {
+      // Eased motion
+      mouse.x += (target.x - mouse.x) * 0.2;
+      mouse.y += (target.y - mouse.y) * 0.2;
+    }
+
+    function drawHead(x, y) {
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#00ff88';
+      ctx.shadowColor = '#00ff88';
+      ctx.shadowBlur = 10;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      updateMouse();
+
+      segments[0].follow(mouse.x, mouse.y);
+      for (let i = 1; i < segments.length; i++) {
+        segments[i].follow(segments[i - 1].x, segments[i - 1].y);
+      }
+
+      for (let i = 0; i < segments.length; i++) {
+        segments[i].draw(ctx, i);
+      }
+
+      drawHead(mouse.x, mouse.y); // glowing head
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</th:block>

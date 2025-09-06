@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${title}"></title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+<style>
+     body{
+            background: linear-gradient(rgba(280,260,260,0.6), rgba(255,255,255,0.7)), 
+              url('/images/background/news2.jpg') center/cover no-repeat; 
+        }
+        
+      .news-form {
+        max-width: 700px;
+        margin: auto;
+        margin-top:25px;
+        padding: 20px;
+        border-radius:20px;
+        background: #f8f9fa;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .news-form h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .news-form button {
+        width: 100%;
+    } 
+    
+    
+    
+</style>
+</head>
+<body>
+<!-- Header -->
+  <div th:replace="~{fragments/adminHeader::headerFragment}"></div>
+
+
+<p id="mssg1" th:text="${mssg}" style="display:none"></p>
+<!--Sweet Alert  -->
+<div th:if="${mssg}">
+<script th:inline="javascript">
+let message = document.getElementById('mssg1').textContent;
+Swal.fire({
+  title: "Notice Message",
+  text: message,
+  icon: "success"
+});
+</script>
+</div>
+
+
+  <!-- Message (only if available) -->
+  <div class="container mt-3" th:if="${mssg}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <h5 id="mssg1" class="text-success mb-0" th:text="${mssg}"></h5>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <div class="main-body">
+    <div class="news-form">
+        <h2>📰 Add News</h2>
+
+        <form method="post" th:object="${noticeObj}" th:action="@{/admin/postNotice}">
+          <div class="mb-3">
+            <label for="news_title" class="form-label">News Title</label>
+            <input type="text" class="form-control" th:field="*{title}" name="news_title" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="news_description" class="form-label">News Description</label>
+            <textarea class="form-control" th:field="*{description}" rows="4" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary ">Submit</button>
+        </form>
+      </div>
+    </div>
+  
+
+  <div th:replace="~{fragments/footer::footerFragment}"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${title}">All Notice</title>
+  <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+
+  <style>
+    table td {
+      padding: 4px 8px !important;
+      vertical-align: middle;
+      height: 90px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div th:replace="~{fragments/adminHeader::headerFragment}"></div>
+
+  <div class="main-body container my-4">
+    <!-- Page Title -->
+    <h2 class="text-center text-success my-3">All Notice</h2>
+
+    <table class="table table-success table-striped-columns align-middle text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="notice, iterStat : ${noticeKey}">
+          <th th:text="${iterStat.count}">1</th>
+          <td th:text="${notice.title}">Title</td>
+          <td th:text="${notice.description}">Description</td>
+          
+          <!-- Deleting notice via RequestParm() -->
+            <td>
+			    <a th:href="@{/admin/deleteNotice(noticeId=${notice.noticeId})}" 
+			       class="btn btn-sm btn-danger" 
+			       onclick="return confirm('Are you sure you want to delete this user?');">
+			      <i class="fas fa-trash-alt me-1"></i>Delete
+			    </a>
+			</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div th:replace="~{fragments/footer::footerFragment}"></div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Edit Profile</title>
+    <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+
+    <!-- Tailwind & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 60px;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+
+<!-- Header -->
+<div th:replace="~{fragments/userHeader::headerFragment}"></div>
+
+<!-- Edit Form -->
+<div class="container mt-5 mb-8 px-3 main-body fade-in">
+
+    <form th:action="@{/user/updateProfile}" th:object="${userInfo}" method="post" enctype="multipart/form-data"
+          class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-900">
+
+        <!-- Profile Picture -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700">Profile Picture</label>
+            <div class="my-2">
+                <img th:src="@{'/' + ${userInfo.pic}}" alt="Profile Image" class="h-24 rounded-full shadow-md">
+            </div>
+            <input type="file" name="profileImage" class="w-full mt-2 text-gray-700">
+            <small class="text-gray-500">Leave empty to keep current picture.</small>
+        </div>
+
+        <!-- Form Fields -->
+        <div class="space-y-4">
+            <div>
+                <label class="form-label">Name</label>
+                <input type="text" th:field="*{name}" class="w-full border rounded px-3 py-2" required>
+            </div>
+
+            <!-- Email is hidden (used for identity, don't let user edit it) -->
+            <input type="hidden" th:field="*{email}" />
+
+            <div>
+                <label class="form-label">Email</label>
+                <input type="email" th:value="*{email}" class="w-full border rounded px-3 py-2 bg-gray-100 text-gray-500" disabled>
+            </div>
+
+            <div>
+                <label class="form-label">Phone</label>
+                <input type="text" th:field="*{phone}" class="w-full border rounded px-3 py-2">
+            </div>
+
+            <div>
+                <label class="form-label">Address</label>
+                <input type="text" th:field="*{address}" class="w-full border rounded px-3 py-2">
+            </div>
+
+            <div class="pt-4">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded shadow">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+                <a th:href="@{/user/userHome}" class="ml-4 text-sm text-blue-600 hover:underline">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::footerFragment}"></div>
+
+</body>
+</html>

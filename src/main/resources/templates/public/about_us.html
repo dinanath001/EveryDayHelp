@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">About Us | EveryDayHelp</title>
+
+    <!-- Bootstrap & Common CSS -->
+    <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+</head>
+
+<body class="bg-white text-dark">
+
+    <!-- Bootstrap Header -->
+    <div th:replace="~{fragments/header::headerFragment}"></div>
+
+    <!-- About Us Section -->
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-dark">About EveryDayHelp</h1>
+            <p class="lead text-secondary">Bridging help and humanity — one click at a time.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="h4 text-success mb-3">Our Purpose</h2>
+                        <p class="text-dark">
+                            <strong>EveryDayHelp</strong> is built to simplify everyday needs by connecting users to trusted services,
+                            employees, and support — whether it's fitness guidance, domestic help, or professional assistance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="h4 text-primary mb-3">Why EveryDayHelp?</h2>
+                        <ul class="list-unstyled text-dark">
+                            <li>✔ Verified professionals for a range of services</li>
+                            <li>✔ User-friendly dashboard with real-time status</li>
+                            <li>✔ Admin-managed platform for safety & support</li>
+                            <li>✔ Quick registration and seamless experience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 card shadow-sm">
+            <div class="card-body">
+                <h2 class="h4 text-purple mb-3">Contact Us</h2>
+                <p class="text-dark mb-2">We're here to support you. Reach out anytime:</p>
+                <p class="mb-1">
+                    <strong>📞 Phone:</strong> <span th:text="${GlobalphoneKey}"></span>
+                </p>
+                <p>
+                    <strong>📧 Email:</strong>
+                    <a href="mailto:support@everydayhelp.com" class="text-decoration-none text-primary">support@everydayhelp.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Footer -->
+    <div th:replace="~{fragments/footer::footerFragment}"></div>
+    
+    
+<!-- Cursor effect fragment inclusion -->
+<th:block th:replace="fragments/reptile-cursor :: reptile-cursor"></th:block>
+</body>
+</html>

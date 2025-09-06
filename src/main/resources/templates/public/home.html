@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">EveryDayHelp</title>
+
+    <!-- Common CSS -->
+    <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+
+    <!-- Fonts & AOS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+
+    <!-- External CSS for Landing Page -->
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    
+	 <style>
+		.floating-whatsapp img:hover {
+		    transform: scale(1.2);
+		    transition: transform 0.3s ease-in-out;
+		}
+	</style>
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header::headerFragment}"></div>
+
+<div class="main-body">
+
+<!--  <h2 th:text="${GlobalphoneKey}">:phone</h2> -->
+<!-- Hero -->
+<section class="hero" data-aos="fade-in">
+  <div class="container">
+    <h1>Elegant Support, Every Day</h1>
+    <p>Your trusted platform for help in home care, health, and daily needs — fast, secure, and friendly.</p>
+    <a href="#join" class="btn">Get Started</a>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="features">
+  <div class="container">
+    <h2 data-aos="fade-up">Our Premium Services</h2>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+        <div class="feature-card">
+          <i class="fas fa-screwdriver-wrench"></i>
+          <h5>Home Repairs</h5>
+          <p>Fast, reliable fixes — plumbing, electric work, and installations by experts.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="feature-card">
+          <i class="fas fa-user-nurse"></i>
+          <h5>Health Support</h5>
+          <p>Skilled caregivers and medical support, always a click away.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+        <div class="feature-card">
+          <i class="fas fa-hand-holding-heart"></i>
+          <h5>Daily Help</h5>
+          <p>Errands, tutoring, grocery delivery – all in one place.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="about" data-aos="fade-up">
+  <div class="container">
+    <h2>About EveryDayHelp</h2>
+    <p>We believe everyone deserves trustworthy, on-demand assistance for everyday tasks. EveryDayHelp connects you with trained, verified professionals in your area — when and where you need them most.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="join" class="cta" data-aos="fade-in">
+  <div class="container">
+    <h2>Join the EveryDayHelp Community</h2>
+    <p>Sign up now and discover a smarter way to manage your home and care needs.</p>
+    <a th:href="@{/user/userAdd}" class="btn">Join Now</a>
+  </div>
+</section>
+
+</div>
+
+
+<div class="floating-whatsapp" style="position: fixed; bottom: 5vh; right: -0vw; width: 40px; height: 50px; z-index:50;">
+    <a href="https://wa.me/+917618087016" target="_blank">
+        <img src="/images/background/watslogo.png" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: contain;" />
+    </a>
+</div>
+
+
+
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 800, // animation lasts 800ms
+    once: false     // animation happens only once or again*2-> when scrolled into view
+  });
+</script>
+
+
+
+
+
+
+
+<!-- Footer -->
+<div  th:replace="~{fragments/footer::footerFragment}"></div>
+
+
+
+</body>
+</html>

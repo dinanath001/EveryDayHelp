@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Booking Status</title>
+    <!-- Common CSS Fragment -->
+    <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+    
+    <style>
+        .main-body {
+            padding: 40px;
+            background-color: #f2f6fc;
+            min-height: 100vh;
+        }
+
+        .booking-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-confirmed {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .admin-message {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body >
+<!-- Header fragment -->
+<div th:replace="~{fragments/userHeader::headerFragment}"></div>
+
+<div class="main-body">
+    <h2 class="mb-4 mt-4">My Booking Status</h2>
+
+    <div th:if="${#lists.isEmpty(bookingKey)}">
+        <p>No bookings found.</p>
+    </div>
+
+    <div th:each="booking : ${bookingKey}" class="booking-card">
+        <h4 th:text="'Service: ' + ${booking.serviceType}"></h4>
+        <p><strong>Employee Type:</strong> <span th:text="${booking.employeeType}"></span></p>
+        <p><strong>Requested On:</strong> <span th:text="${#temporals.format(booking.createdAt, 'dd MMM yyyy hh:mm a')}"></span></p>
+        <p><strong>Admin Message:</strong> 
+            <span class="admin-message" th:text="${booking.adminMessage} ?: 'No response yet'"></span>
+        </p>
+        <p><strong>Status:</strong> 
+            <span th:class="${booking.status} ? 'status-confirmed' : 'status-pending'"
+                  th:text="${booking.status} ? 'Confirmed ✅' : 'Pending ⏳'">
+            </span>
+        </p>
+    </div>
+</div>
+
+<!-- Footer Fragment -->
+<div th:replace="~{fragments/footer::footerFragment}"></div>
+</body>
+</html>

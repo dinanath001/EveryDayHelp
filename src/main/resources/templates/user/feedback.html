@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${title}">Feedback</title>
+  <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+
+  <!-- Fonts, Bootstrap, FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      padding-top: 60px;
+    }
+
+    h2 {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .form-section {
+      background-color: #ffffff;
+      color: #333;
+      border-radius: 15px;
+      padding: 25px 40px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .emoji-rating {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      font-size: 2rem;
+      margin-top: 0.5rem;
+    }
+
+    .emoji-rating input[type="radio"] {
+      display: none;
+    }
+
+    .emoji-rating label {
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s;
+      filter: grayscale(100%);
+    }
+
+    .emoji-rating input[type="radio"]:checked + label,
+    .emoji-rating label:hover {
+      transform: scale(1.3);
+      filter: grayscale(0%);
+    }
+
+    .form-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      border: none;
+      transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+    }
+
+    @media (min-width: 992px) {
+      .form-section {
+        max-width: 70%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/userHeader::headerFragment}"></div>
+
+<!-- Feedback Form -->
+<div class="container mt-4 mb-5 d-flex justify-content-center">
+  <div class="form-section w-100">
+    <h2 class="text-center">We Value Your Feedback 😊</h2>
+
+    <form th:action="@{/user/saveFeedback}" method="post">
+      <input type="hidden" name="userEmail" th:value="${userInfo.email}" />
+
+      <!-- Row 1 -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-control" name="name" placeholder="Enter your name" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Employee Name</label>
+          <input type="text" class="form-control" name="employeeName" placeholder="Enter employee's name" required>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Service Type</label>
+          <select class="form-select" name="serviceType" required>
+            <option value="" disabled selected>Select a service type</option>
+            <option value="STS">STS (Short-Term Service)</option>
+            <option value="LTS">LTS (Long-Term Service)</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Employee Type</label>
+          <select class="form-select" name="employeeType" required>
+            <option value="" disabled selected>Select employee type</option>
+            <option value="Plumber">Plumber</option>
+            <option value="Carpenter">Carpenter</option>
+            <option value="Electrician">Electrician</option>
+            <option value="AC Technician">AC Technician</option>
+            <option value="Painter">Painter</option>
+            <option value="Gardener">Gardener</option>
+            <option value="Cleaner">Cleaner</option>
+            <option value="Cook">Cook</option>
+            <option value="Maid">Maid</option>
+            <option value="Driver">Driver</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Remarks -->
+      <div class="mb-3">
+        <label class="form-label">Remarks</label>
+        <textarea class="form-control" name="remark" rows="2" placeholder="Share your thoughts..." required></textarea>
+      </div>
+
+      <!-- Emoji Rating -->
+      <div class="text-center mb-4">
+        <label class="form-label d-block">How was your experience?</label>
+        <div class="emoji-rating">
+          <input type="radio" name="rating" id="emoji1" value="1">
+          <label for="emoji1" title="Very Bad">😡</label>
+
+          <input type="radio" name="rating" id="emoji2" value="2">
+          <label for="emoji2" title="Bad">😕</label>
+
+          <input type="radio" name="rating" id="emoji3" value="3">
+          <label for="emoji3" title="Okay">😐</label>
+
+          <input type="radio" name="rating" id="emoji4" value="4">
+          <label for="emoji4" title="Good">🙂</label>
+
+          <input type="radio" name="rating" id="emoji5" value="5">
+          <label for="emoji5" title="Excellent">😍</label>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="text-center">
+        <button class="btn btn-primary px-4 py-2 rounded-pill" type="submit">
+          Submit Feedback
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::footerFragment}"></div>
+
+</body>
+</html>

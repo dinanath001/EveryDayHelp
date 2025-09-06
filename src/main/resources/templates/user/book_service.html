@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Service | EveryDayHelp</title>
+
+    <!-- Common CSS -->
+    <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+
+    <style>
+        body {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: #fff;
+            
+          
+        }
+
+        .form-container {
+            background: #ffffff;
+            color: #000;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            margin: 40px auto;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        input[readonly] {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/userHeader::headerFragment}"></div>
+<div class="main-body">
+<!-- Booking Form -->
+<div class="form-container">
+    <h2 class="text-center mb-4">Confirm Booking Details</h2>
+    <form th:action="@{/user/bookServiceDo}" method="post">
+
+        <!-- Service Type -->
+        <div class="mb-3">
+            <label class="form-label">Service Type</label>
+            <input type="text" name="serviceType" th:value="${serviceType}" class="form-control" readonly>
+        </div>
+
+        <!-- Employee Type -->
+        <div class="mb-3">
+            <label class="form-label">Employee Type</label>
+            <input type="text" name="employeeType" th:value="${employeeType}" class="form-control" readonly>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label class="form-label">Your Email</label>
+            <input type="email" name="email" th:value="${userEmail}" class="form-control" readonly>
+        </div>
+
+        <!-- User Message -->
+        <div class="mb-3">
+            <label class="form-label">Message for Admin (Optional)</label>
+            <textarea name="userMessage" class="form-control" rows="4" placeholder="Describe your issue or request..."></textarea>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4 py-2">Submit Booking</button>
+        </div>
+    </form>
+</div>
+
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::footerFragment}"></div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="UTF-8">
+  <title th:text="${title}">Admin</title>
+  <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+  </style>
+</head>
+<body>
+ <!-- Header -->
+  <div th:replace="~{fragments/adminHeader::headerFragment}"></div>
+ 
+<div class="main-body">
+  <h1>Welcome to My Administration Page</h1>
+  <p th:text="'⭐Hello '+${adminInfo.email}" >This is a basic Thymeleaf template.</p>
+</div>
+
+  <!-- Footer -->
+  <div th:replace="~{fragments/footer::footerFragment}"></div>
+</body>
+</html>

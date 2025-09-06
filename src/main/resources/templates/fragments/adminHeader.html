@@ -1,0 +1,118 @@
+<div th:fragment="headerFragment" style="height: 40px;">
+
+  <!-- Top Navbar with toggle button -->
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid d-flex justify-content-between">
+      <!-- Toggle Button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <span class="navbar-brand mb-0 h1">EveryDayHelp</span>
+    </div>
+  </nav>
+
+  <!-- Offcanvas Sidebar -->
+  <div class="offcanvas offcanvas-start text-bg-dark custom-offcanvas-width" tabindex="-1" id="offcanvasSidebar">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title">Welcome 👋</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body d-flex flex-column p-0">
+      <h4 class="text-center py-3 border-bottom">Sidebar</h4>
+
+      <ul class="nav flex-column mb-auto px-2">
+        <li><a th:href="@{/admin/adminHome}" class="nav-link active text-white"><i class="fas fa-home me-2"></i> Home</a></li>
+        <li><a th:href="@{/admin/editUser(email='ankush@gmail.com')}" class="nav-link text-light"><i class="fas fa-tachometer-alt me-2"></i> Edit-User</a></li>
+        <li><a th:href="@{/admin/allBookings}" class="nav-link text-light"><i class="fas fa-table me-2"></i>Pending-Bookings</a></li>
+        <li><a th:href="@{/products}" class="nav-link text-light"><i class="fas fa-box me-2"></i> Products</a></li>
+ 
+         <!--view all service  -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-cogs me-2"></i> View-all
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="servicesDropdown">
+            <li><a class="dropdown-item" th:href="@{/admin/allUsers}">All-Users</a></li>
+            <li><a class="dropdown-item" th:href="@{/admin/allEmployee}">All-Employee's</a></li>
+            <li><a class="dropdown-item" th:href="@{/admin/allNotice}">All-Notice</a></li>
+            <li><a class="dropdown-item" th:href="@{/admin/allContacts}">All-Contacts</a></li>           
+          </ul>
+        </li>
+         
+        <!--Task- Services Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-cogs me-2"></i>do~Services
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="servicesDropdown">
+            <li><a class="dropdown-item" th:href="@{/admin/addEmployee}">Register-Employee</a></li>
+            <li><a class="dropdown-item" th:href="@{/admin/addNotice }">Add-Notice</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- User Dropdown at Bottom -->
+      <div class="dropdown border-top mt-auto p-3">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+          <img src="https://i.pravatar.cc/30" alt="user" class="rounded-circle me-2"> mdo
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+          <li><a class="dropdown-item" th:href="@{/newProject}">New project…</a></li>
+          <li><a class="dropdown-item" th:href="@{/settings}">Settings</a></li>
+          <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" th:href="@{/admin/adminLogout}">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Custom Styling -->
+<style>
+  /* Slim down the top navbar */
+.navbar {
+  padding-top: 0.25rem !important;   /* Reduce vertical spacing */
+  padding-bottom: 0.25rem !important;
+  height: 45px !important;           /* Set a smaller height */
+  min-height: 45px;
+}
+
+/* Reduce font size and padding of brand text */
+.navbar-brand {
+  font-size: 1rem !important;
+  padding: 0 !important;
+}
+
+/* Shrink the toggle button */
+.navbar-toggler {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+}
+  
+    .custom-offcanvas-width {
+      width: 190px !important;
+       height: 100vh;
+    }
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link:hover {
+  background-color: #0d6efd;
+  color: white !important;
+}
+
+    .dropdown-item:hover {
+      background-color: #198754;
+    }
+
+    @media (max-width: 576px) {
+      .custom-offcanvas-width {
+        width: 200px !important;
+      }
+    }
+  </style>
+</div>
