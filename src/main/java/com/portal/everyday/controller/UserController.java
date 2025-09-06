@@ -36,7 +36,7 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/userAdd")
+	@GetMapping("/userAdd/{userId}")
 	public String userAddHandler() 
 	{
 		return "user/user_Signup"; 
