@@ -45,7 +45,7 @@ public class AdminController {
 	@GetMapping("/adminLogin")
 	public String adminLoginHandler()
 	{	
-		return "admin/admin_login"; //return html view page by GetMapping to show the form 	
+		return "admin/admin_login"; //return html view page by GetMapping to show the html form	
 	}
 //Admin login-process	
 	@PostMapping("/adminLogin")
