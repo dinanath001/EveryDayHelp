@@ -2,6 +2,7 @@ package com.portal.everyday.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -115,7 +116,7 @@ public class UserController {
 	@GetMapping("/userLogout")
 	public String userLogout(HttpSession session,RedirectAttributes rat)
 	{
-		 session.removeAttribute("userKey");
+		    session.removeAttribute("userKey");
 		    session.invalidate(); //destroy the session
 		    rat.addFlashAttribute("mssg","Successfully Logged out(User)");
 			return "redirect:/user/userLoginForm";
@@ -232,7 +233,41 @@ public class UserController {
          return "user/booking_status"; // return view
      }
 
-     
+
+
+        
+   //1️⃣ Show forgot-password form
+     @GetMapping("/forgot-password")
+     public String showForgotPasswordForm() {
+         return "user/forgot-password";  // ✅ points to templates/user/forgot-password.html
+     }
+
+     //2️⃣ Handle forgot-password form submission
+     @PostMapping("/forgot-password")
+     public String handleForgotPassword(@RequestParam String email, Model model) {
+         userService.generateResetToken(email);
+         model.addAttribute("message", "If this email exists, a reset link has been sent.");
+         return "user/forgot-password";  // ✅ same page with message
+     }
+
+     //3️⃣ Show reset-password form (from email link)
+     @GetMapping("/reset-password")
+     public String showResetForm(@RequestParam String token, Model model) {
+         model.addAttribute("token", token);
+         return "user/reset-password";   // ✅ changed from "reset-password" to "user/reset-password"
+     }
+
+     //4️⃣ Handle reset-password form submission
+     @PostMapping("/reset-password")
+     public String handleResetPassword(@RequestParam String token,
+                                       @RequestParam String password,
+                                       Model model) {
+         boolean success = userService.resetPassword(token, password);
+         model.addAttribute("message", success ? "Password reset successfully!" : "Invalid or expired token.");
+         return "user/reset-password";   // ✅ changed from "reset-password" to "user/reset-password"
+     }
+
+  
 
 
 	

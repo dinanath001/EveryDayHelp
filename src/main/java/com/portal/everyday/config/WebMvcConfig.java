@@ -18,6 +18,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/user/userLogout",     // allow logout
                         "/user/userAdd",       //allow user to open User-SignUp form-->(GETmap)
                         "/user/userSignup",     //allow user to Get -Registered via --> POStMap
+                        "/user/forgot-password",
+                        "/user/reset-password",
                     "/css/**", "/js/**", "/images/**", "/webjars/**" // allow static resources
                 );
     }

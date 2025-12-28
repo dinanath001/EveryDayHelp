@@ -1,4 +1,10 @@
-HELP.md
+### SPRING BOOT SECRETS ###
+src/main/resources/application.properties
+src/main/resources/application-secret.properties
+src/main/resources/application-local.properties
+.env
+
+### MAVEN ###
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -14,7 +20,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr

@@ -273,7 +273,9 @@ public class AdminController {
     	
     	model.addAttribute("bookingKey",bkE);
     	return "admin/all_bookings";
+   
     }
+    
     
     @GetMapping("/respondBooking")
     public String showResponseForm(@RequestParam int bookingId,Model model)
