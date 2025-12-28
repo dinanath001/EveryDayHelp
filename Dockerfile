@@ -4,24 +4,16 @@ FROM eclipse-temurin:21-jdk-jammy
 # Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-
-# FIX: give execute permission to mvnw
-RUN chmod +x mvnw
-
-# Download dependencies (cached layer)
-RUN ./mvnw dependency:go-offline
-
-# Copy rest of the project
+# Copy entire project
 COPY . .
+
+# FIX: give execute permission AFTER copy
+RUN chmod +x mvnw
 
 # Build the application
 RUN ./mvnw clean package -DskipTests
 
-# Expose port (Render maps this automatically)
+# Expose port (Render uses PORT env)
 EXPOSE 8080
 
 # Run the app
