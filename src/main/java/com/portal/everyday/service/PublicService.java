@@ -9,7 +9,7 @@ import com.portal.everyday.repository.ContactRepository;
 @Service
 public class PublicService {
 	
-	private  ContactRepository contactRepository;
+	private final ContactRepository contactRepository;
 	public PublicService(ContactRepository contactRepository) //constructor Injection
 	{
 		this.contactRepository = contactRepository;

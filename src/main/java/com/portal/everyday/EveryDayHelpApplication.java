@@ -3,6 +3,7 @@ package com.portal.everyday;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
 public class EveryDayHelpApplication {
 
@@ -10,5 +11,6 @@ public class EveryDayHelpApplication {
 		SpringApplication.run(EveryDayHelpApplication.class, args);
 	
 	}
+
 
 }

@@ -1,5 +1,7 @@
 package com.portal.everyday.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -20,6 +22,10 @@ public class UserDetails {
 	private String address;
 	
 	private String pic;
+	
+	// 🔹 New fields for forgot password
+		private String resetToken;       // unique token to identify password reset request
+		private LocalDateTime tokenExpiry;  // expiry time for token
 
 	public UserDetails(String email, String password, String name, String phone, String address, String pic) {
 		super();
@@ -84,6 +90,26 @@ public class UserDetails {
 	public void setPic(String pic) {
 		this.pic = pic;
 	}
+
 	
 
+	//getter and setter for forget password fields
+	public String getResetToken() {
+		return resetToken;
+	}
+
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
+	}
+
+	public LocalDateTime getTokenExpiry() {
+		return tokenExpiry;
+	}
+
+	public void setTokenExpiry(LocalDateTime tokenExpiry) {
+		this.tokenExpiry = tokenExpiry;
+	}
+	
+
+	
 }

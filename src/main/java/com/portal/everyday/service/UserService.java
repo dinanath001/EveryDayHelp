@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +29,7 @@ import com.portal.everyday.repository.BookingEmployeeRepository;
 import com.portal.everyday.repository.EmployeeRepository;
 import com.portal.everyday.repository.FeedbackRepository;
 import com.portal.everyday.repository.UserRepository;
+import com.portal.everyday.xhelper.FileUploadUtil;
 
 @Service
 public class UserService {
@@ -154,52 +160,28 @@ private JdbcTemplate template;
 	    oldUser.setAddress(updatedUser.getAddress());
 
 	    // Image update logic
-	    if (updatedPic != null && !updatedPic.isEmpty()) {
-	        try {
-	            // Project root
-	            String projectRoot = System.getProperty("user.dir");
-	            System.out.println("Project root is:-> " + projectRoot);
-
-	            // Folder setup
-	            String folderName = "uploads/user";
-	            String uploadPath = projectRoot + File.separator + folderName;
-	            System.out.println("Upload path is: " + uploadPath);
-
-	            File uploadDir = new File(uploadPath);
-	            if (!uploadDir.exists()) { // ✅ Fix here
-	                uploadDir.mkdirs();
-	                System.out.println("Created upload folder at: " + uploadDir.getAbsolutePath());
-	            }
-
-	            // Delete old image if it exists and is not default
-	            String oldImagePath = oldUser.getPic();
-	            if (oldImagePath != null && !oldImagePath.contains("default")) {
-	                File oldFile = new File(projectRoot + File.separator + oldImagePath);
-	                if (oldFile.exists()) {
-	                    oldFile.delete();
-	                    System.out.println("Deleted old image: " + oldFile.getAbsolutePath());
-	                }
-	            }
-
-	            // Save new image
-	            String originalFileName = updatedPic.getOriginalFilename();
-	            System.out.println("Original file name is: " + originalFileName);
-
-	            String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
-	            File destinationFile = new File(uploadDir, uniqueFileName);
-
-	            updatedPic.transferTo(destinationFile);
-	            System.out.println("Image is saved to: " + destinationFile.getAbsolutePath());
-
-	            // Save relative path in DB
-	            String DB_PATH = folderName + "/" + uniqueFileName;
-	            oldUser.setPic(DB_PATH);
-
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            System.out.println("Image Upload Failed");
-	        }
-	    }
+	    String db_path = oldUser.getPic();
+		try {
+			if(updatedPic != null && !updatedPic.isEmpty())
+			{
+				String oldImagePath = oldUser.getPic();
+			    if (oldImagePath != null && !oldImagePath.contains("default")) {
+			        File oldFile = new File(System.getProperty("user.dir"), oldImagePath);
+			        if (oldFile.exists())
+			        	{
+			        	  oldFile.delete();
+			        	}
+			    }
+			    //call image save utility method from FileUploadUtil.java
+				db_path = FileUploadUtil.saveFile(updatedPic, "user");
+			}
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("❌ Image upload failed — keeping old image path.");
+		}
+	    oldUser.setPic(db_path);
 	    userRepository.save(oldUser);
 	    return oldUser;
 	}
@@ -289,6 +271,55 @@ private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	}
 
 
+
+
+	   @Autowired
+	   private JavaMailSender mailSender;
+	//1
+		    public void generateResetToken(String email) {
+		        UserDetails userOpt = userRepository.findByEmail(email);
+		        if (userOpt != null) {
+		       
+		            String token = UUID.randomUUID().toString();
+		            userOpt.setResetToken(token);
+		            userOpt.setTokenExpiry(LocalDateTime.now().plusMinutes(15));
+		            userRepository.save(userOpt);
+
+		            // send reset link
+		            sendResetEmail(userOpt.getEmail(), token);
+		        }
+		    }
+
+	//2	    
+		    private void sendResetEmail(String email, String token) {
+		        String link = "http://localhost:8080/user/reset-password?token=" + token;
+
+		        SimpleMailMessage message = new SimpleMailMessage();
+		        message.setTo(email);
+		        message.setSubject("Password Reset Request");
+		        message.setText("Click the link to reset your password: " + link);
+
+		        mailSender.send(message);
+		    }
+
+	//3	    
+		    public boolean resetPassword(String token, String newPassword) {
+		        Optional<UserDetails> userOpt = userRepository.findByResetToken(token);
+		        if (userOpt.isPresent()) {
+		            UserDetails user = userOpt.get();
+
+		            // check expiry
+		            if (user.getTokenExpiry().isAfter(LocalDateTime.now())) {
+		                user.setPassword(newPassword); // encode before saving
+		                user.setResetToken(null);
+		                user.setTokenExpiry(null);
+		                userRepository.save(user);
+		                return true;
+		            }
+		        }
+		        return false;
+		    }
+		
 
 
 

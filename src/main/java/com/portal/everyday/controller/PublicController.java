@@ -15,7 +15,7 @@ import com.portal.everyday.service.PublicService;
 
 @Controller //send's html view 
 public class PublicController {
-
+	
 	@Value("${app.phone}")
 	String phone;
 	

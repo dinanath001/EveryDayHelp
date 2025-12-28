@@ -3,78 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <title th:text="${title}">Contact Us</title>
+
+  <!-- Common CSS -->
   <th:block th:replace="~{fragments/common_css::commonCss1}"></th:block>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #e9f7ef, #f8f9fa);
+    }
+
+    .contact-card {
+      border-radius: 16px;
+      border: none;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .contact-header {
+      background: linear-gradient(135deg, #198754, #28a745);
+      padding: 1.5rem;
+    }
+
+    .contact-header h4 {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      padding: 0.75rem;
+    }
+
+    .form-control:focus {
+      box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+      border-color: #198754;
+    }
+
+    .btn-submit {
+      border-radius: 30px;
+      padding: 0.6rem 2rem;
+      font-weight: 500;
+    }
+
+    .alert-custom {
+      max-width: 600px;
+      margin: 1rem auto;
+      border-radius: 10px;
+      text-align: center;
+    }
+  </style>
 </head>
+
 <body>
-  <!-- Header -->
-  <div th:replace="~{fragments/header::headerFragment}"></div>
-  
-  <!-- for showing mssg -->
-  <h2 th:if="${mssg}" th:text="${mssg}" class="text-danger"></h2>
 
-  <!-- Main Body -->
-  <div class="main-body my-2">
-    <section class="content">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-6 col-lg-6"> <!-- Smaller column -->
-            <div class="card border-primary shadow-sm">
-              <div class="card-header bg-success text-white text-center">
-                <h4 class="card-title mb-0">Contact Us</h4>
-              </div>
+<!-- Header -->
+<div th:replace="~{fragments/header::headerFragment}"></div>
 
-              <form method="POST" action="/contactUs" role="form" class="needs-validation" novalidate>
-                <div class="card-body">
+<!-- Message -->
+<div th:if="${mssg}" class="alert alert-danger alert-custom" th:text="${mssg}"></div>
 
-                  <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
-                     <div class="invalid-feedback">
-                           Name Required
-                     </div>
-                  </div>
+<!-- Main Body -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
 
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required >
-                    <div class="invalid-feedback">
-                           Email Required
-                     </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="text" id="phone" name="phone" class="form-control" required>
-                    <div class="invalid-feedback">
-                           Phone Required
-                     </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="question" class="form-label">Question</label>
-                    <textarea id="question" name="question" rows="4" class="form-control" required></textarea>
-                    <div class="invalid-feedback">
-                           Question Required
-                     </div>
-                  </div>
-
-                </div>
-
-                <div class="card-footer text-center">
-                  <button type="submit" class="btn btn-success w-25 text-center">Submit</button>
-                </div>
-              </form>
-
-            </div>
-          </div>
+      <div class="card contact-card">
+        <div class="contact-header text-white text-center">
+          <h4 class="mb-0">📩 Contact Us</h4>
+          <small>We’d love to hear from you</small>
         </div>
+
+        <form method="POST" action="/contactUs"
+              class="needs-validation" novalidate>
+
+          <div class="card-body p-4">
+
+            <!-- Name -->
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Your full name" required>
+              <div class="invalid-feedback">Name is required</div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" placeholder="example@email.com" required>
+              <div class="invalid-feedback">Valid email is required</div>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+              <label class="form-label">Phone</label>
+              <input type="text" name="phone" class="form-control" placeholder="+91 XXXXX XXXXX" required>
+              <div class="invalid-feedback">Phone number is required</div>
+            </div>
+
+            <!-- Question -->
+            <div class="mb-3">
+              <label class="form-label">Your Message</label>
+              <textarea name="question" rows="4" class="form-control"
+                        placeholder="Write your message here..." required></textarea>
+              <div class="invalid-feedback">Message is required</div>
+            </div>
+
+          </div>
+
+          <div class="card-footer bg-white text-center pb-4">
+            <button type="submit" class="btn btn-success btn-submit">
+              Send Message 🚀
+            </button>
+          </div>
+
+        </form>
       </div>
-    </section>
+
+    </div>
   </div>
+</div>
 
-  <!-- Footer -->
-  <div th:replace="~{fragments/footer::footerFragment}"></div>
-  <script src="js/validation.js"></script>
+<!-- Footer -->
+<div th:replace="~{fragments/footer::footerFragment}"></div>
 
+<script src="js/validation.js"></script>
 </body>
 </html>
